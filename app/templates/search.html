@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="search-container">
+    <h2>Hybrid Search</h2>
+    <form method="POST" class="search-form">
+        <input type="text" name="query" value="{{ query }}" placeholder="Enter your query..." required>
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+
+    {% if answer %}
+    <div class="llm-answer">
+        <h3>AI Generated Answer</h3>
+        <div class="answer-content">
+            {{ answer | replace('\n', '<br>') | safe }}
+        </div>
+    </div>
+    {% endif %}
+
+    {% if results %}
+    <div class="results-list">
+        <h3>Top Documents</h3>
+        {% for doc_id, score in results %}
+        <div class="result-card">
+            <h4>{{ doc_id }}</h4>
+            <span class="score">Score: {{ "%.4f"|format(score) }}</span>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
